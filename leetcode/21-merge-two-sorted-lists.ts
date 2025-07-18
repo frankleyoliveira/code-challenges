@@ -15,49 +15,22 @@ function mergeTwoLists(
   list1: ListNode | null,
   list2: ListNode | null
 ): ListNode | null {
-  if (!list1) return list2
-  if (!list2) return list1
-
   const mergedList = new ListNode(-1)
   let tail = mergedList
-  let l1Ref = list1
-  let l2Ref = list2
 
-  while (true) {
-    if (l1Ref.val <= l2Ref.val) {
-      tail.next = new ListNode(l1Ref.val)
-      tail = tail.next
-
-      if (l1Ref.next === null) {
-        tail.next = new ListNode(l2Ref.val)
-
-        if (l2Ref.next !== null) {
-          tail = tail.next
-          tail.next = l2Ref.next
-        }
-
-        break
-      }
-
-      l1Ref = l1Ref.next
+  while (list1 && list2) {
+    if (list1.val <= list2.val) {
+      tail.next = list1
+      list1 = list1.next
     } else {
-      tail.next = new ListNode(l2Ref.val)
-      tail = tail.next
-
-      if (l2Ref.next === null) {
-        tail.next = new ListNode(l1Ref.val)
-
-        if (l1Ref.next !== null) {
-          tail = tail.next
-          tail.next = l1Ref.next
-        }
-
-        break
-      }
-
-      l2Ref = l2Ref.next
+      tail.next = list2
+      list2 = list2.next
     }
+
+    tail = tail.next
   }
+
+  tail.next = list1 !== null ? list1 : list2
 
   return mergedList.next
 }
