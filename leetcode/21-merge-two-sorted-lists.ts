@@ -43,3 +43,5 @@ console.log('test 1:', mergeTwoLists(ln1, ln2))
 console.log('test 2:', mergeTwoLists(ln3, ln3))
 console.log('test 3:', mergeTwoLists(null, null))
 console.log('test 4:', mergeTwoLists(ln3, null))
+
+export { }

@@ -39,3 +39,5 @@ function romanToInt(s: string): number {
 console.log(romanToInt('III'))
 console.log(romanToInt('IV'))
 console.log(romanToInt('XC'))
+
+export { }

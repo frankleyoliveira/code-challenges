@@ -19,3 +19,5 @@ console.log(removeDuplicates(nums1), nums1) // 2, [1,2,_]
 
 const nums2 = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
 console.log(removeDuplicates(nums2), nums2) // 5, [0,1,2,3,4,_,_,_,_,_]
+
+export { }
