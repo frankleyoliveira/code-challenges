@@ -16,11 +16,43 @@ class TreeNode {
 }
 
 function inorderTraversal(root: TreeNode | null): number[] {
-  if (!root) {
-    return []
+  // RECURSIVE SOLUTION
+  // if (!root) {
+  //   return []
+  // }
+  // return [...inorderTraversal(root.left), root.val, ...inorderTraversal(root.right)]
+
+  // -----------------------------------------------------
+
+  // Follow up: Recursive solution is trivial, could you do it iteratively?
+
+  const result: number[] = []
+  const stack = [root]
+
+  while (stack.length) {
+    if (!stack[0]) {
+
+      stack.shift()
+      continue
+    }
+
+    if (stack[0].left) {
+
+      stack.unshift(stack[0].left)
+      stack[1]!.left = null
+      continue
+    }
+
+    if (!stack[0].left) {
+      result.push(stack[0].val)
+      const newRoot = stack[0].right
+      stack.shift()
+      stack.unshift(newRoot)
+      continue
+    }
   }
 
-  return [...inorderTraversal(root.left), root.val, ...inorderTraversal(root.right)]
+  return result
 };
 
 // Helper function: Create tree from array (level-order)
