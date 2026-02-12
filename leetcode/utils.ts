@@ -9,6 +9,15 @@ class TreeNode {
   }
 }
 
+class ListNode {
+  val: number
+  next: ListNode | null
+  constructor(val?: number, next?: ListNode | null) {
+    this.val = (val === undefined ? 0 : val)
+    this.next = (next === undefined ? null : next)
+  }
+}
+
 // Helper function: Create tree from array (level-order)
 export function createTree(arr: (number | null)[]): TreeNode | null {
   if (arr.length === 0 || arr[0] === null) return null
@@ -36,4 +45,27 @@ export function createTree(arr: (number | null)[]): TreeNode | null {
   }
 
   return root
+}
+
+// Helper: Create linked list with cycle
+export function createLinkedListWithCycle(values: number[], pos: number): ListNode | null {
+  if (values.length === 0) return null
+
+  // Create all nodes
+  const nodes: ListNode[] = []
+  for (let val of values) {
+    nodes.push(new ListNode(val))
+  }
+
+  // Link nodes together
+  for (let i = 0; i < nodes.length - 1; i++) {
+    nodes[i].next = nodes[i + 1]
+  }
+
+  // Create cycle if pos >= 0
+  if (pos >= 0 && pos < nodes.length) {
+    nodes[nodes.length - 1].next = nodes[pos]  // Last node points to pos
+  }
+
+  return nodes[0]  // Return head
 }
