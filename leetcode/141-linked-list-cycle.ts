@@ -13,17 +13,15 @@ class ListNode {
 }
 
 function hasCycle(head: ListNode | null): boolean {
-  const visited = new Set()
+  let slow = head
+  let fast = head
 
-  let current = head
-
-  while (current !== null) {
-    if (visited.has(current)) {
+  while (fast && fast.next) {
+    slow = slow!.next
+    fast = fast.next.next
+    if (slow === fast) {
       return true
     }
-
-    visited.add(current)
-    current = current.next
   }
 
   return false
