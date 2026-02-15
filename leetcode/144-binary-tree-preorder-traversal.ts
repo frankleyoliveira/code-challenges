@@ -81,6 +81,4 @@ console.log(preorderTraversal(tree1)) // [1, 2, 3]
 const tree2 = createTree([1, 2, 3, 4, 5, null, 8, null, null, 6, 7, 9])
 console.log(preorderTraversal(tree2)) // [1, 2, 4, 5, 6, 7, 3, 8, 9]
 
-console.log() // result
-
 export { }
