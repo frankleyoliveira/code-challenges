@@ -55,6 +55,24 @@ function preorderTraversal(root: TreeNode | null): number[] {
   }
 
   return result
+
+  // A cleaner approach:
+  // const result: number[] = []
+  // const stack: TreeNode[] = []
+
+  // if (root) stack.push(root)
+
+  // while (stack.length > 0) {
+  //   const node = stack.pop()!  // Remove and get last element
+
+  //   result.push(node.val)  // Process root first (preorder!)
+
+  //   // Push right first, then left (so left is processed first)
+  //   if (node.right) stack.push(node.right)
+  //   if (node.left) stack.push(node.left)
+  // }
+
+  // return result
 }
 
 const tree1 = createTree([1, null, 2, 3])
