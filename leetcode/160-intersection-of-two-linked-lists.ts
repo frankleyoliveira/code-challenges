@@ -12,19 +12,19 @@ class ListNode {
 
 function getIntersectionNode(headA: ListNode | null, headB: ListNode | null): ListNode | null {
   let nodeA = headA
+  const aSet = new Set()
 
   while (nodeA) {
-    let nodeB = headB
-
-    while (nodeB) {
-      if (nodeA === nodeB) {
-        return nodeA
-      }
-
-      nodeB = nodeB.next
-    }
-
+    aSet.add(nodeA)
     nodeA = nodeA.next
+  }
+
+  let nodeB = headB
+  while (nodeB) {
+    if (aSet.has(nodeB)) {
+      return nodeB
+    }
+    nodeB = nodeB.next
   }
 
   return null
