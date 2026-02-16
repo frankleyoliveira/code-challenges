@@ -11,23 +11,24 @@ class ListNode {
 }
 
 function getIntersectionNode(headA: ListNode | null, headB: ListNode | null): ListNode | null {
-  let nodeA = headA
-  const aSet = new Set()
+  let pA = headA
+  let pB = headB
 
-  while (nodeA) {
-    aSet.add(nodeA)
-    nodeA = nodeA.next
-  }
-
-  let nodeB = headB
-  while (nodeB) {
-    if (aSet.has(nodeB)) {
-      return nodeB
+  while (pA !== pB) {
+    if (pA) {
+      pA = pA.next
+    } else {
+      pA = headB
     }
-    nodeB = nodeB.next
+
+    if (pB) {
+      pB = pB.next
+    } else {
+      pB = headA
+    }
   }
 
-  return null
+  return pA
 }
 
 // Helper: Create linked list from array
