@@ -2,20 +2,25 @@
 // https://leetcode.com/problems/majority-element/description/
 
 function majorityElement(nums: number[]): number {
-  const numsMap = new Map<number, number>()
+  let candidate = nums[0]
+  let count = 1
 
-  const halfLength = Math.round(nums.length / 2)
+  for (let i = 1; i < nums.length; i++) {
+    if (count == 0) {
+      candidate = nums[i]
+      count = 1
 
-  for (const num of nums) {
-    const count = (numsMap.get(num) ?? 0) + 1
-    if (count == halfLength) {
-      return num
+      continue
     }
 
-    numsMap.set(num, count)
+    if (candidate == nums[i]) {
+      count++
+    } else {
+      count--
+    }
   }
 
-  return 0
+  return candidate
 }
 
 console.log(majorityElement([3, 2, 3])) // 3
