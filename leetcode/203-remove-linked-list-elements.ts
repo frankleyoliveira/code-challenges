@@ -14,24 +14,32 @@ class ListNode {
 }
 
 function removeElements(head: ListNode | null, val: number): ListNode | null {
-  let current = head
-  let newHead: ListNode | null = null
-  let newCurrent: ListNode | null = null
+  if (!head) return null
 
-  while (current !== null) {
-    if (current.val !== val) {
-      if (newHead === null) {
-        newHead = new ListNode(current.val)
-        newCurrent = newHead
-      } else {
-        newCurrent!.next = new ListNode(current.val)
-        newCurrent = newCurrent!.next
-      }
-    }
-    current = current.next
+  if (head.val === val) {
+    return removeElements(head.next, val)
   }
 
-  return newHead
+  return new ListNode(head.val, removeElements(head.next, val))
+
+  // let current = head
+  // let newHead: ListNode | null = null
+  // let newCurrent: ListNode | null = null
+
+  // while (current !== null) {
+  //   if (current.val !== val) {
+  //     if (newHead === null) {
+  //       newHead = new ListNode(current.val)
+  //       newCurrent = newHead
+  //     } else {
+  //       newCurrent!.next = new ListNode(current.val)
+  //       newCurrent = newCurrent!.next
+  //     }
+  //   }
+  //   current = current.next
+  // }
+
+  // return newHead
 }
 
 const ll1 = createLinkedList([1, 2, 6, 3, 4, 5, 6])
