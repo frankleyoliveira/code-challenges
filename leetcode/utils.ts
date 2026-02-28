@@ -69,3 +69,31 @@ export function createLinkedListWithCycle(values: number[], pos: number): ListNo
 
   return nodes[0]  // Return head
 }
+
+// Helper: Create linked list from array
+export function createLinkedList(arr: number[]): ListNode | null {
+  if (arr.length === 0) return null
+
+  const head = new ListNode(arr[0])
+  let current = head
+
+  for (let i = 1; i < arr.length; i++) {
+    current.next = new ListNode(arr[i])
+    current = current.next
+  }
+
+  return head
+}
+
+// Helper: Convert linked list to array (for easy viewing)
+export function linkedListToArray(head: ListNode | null): number[] {
+  const result: number[] = []
+  let current = head
+
+  while (current !== null) {
+    result.push(current.val)
+    current = current.next
+  }
+
+  return result
+}
