@@ -15,7 +15,32 @@ class TreeNode {
 }
 
 function countNodes(root: TreeNode | null): number {
+  // O(n) time complexity solution:
+
+  // if (!root) return 0
+  // return 1 + countNodes(root.left) + countNodes(root.right)
+  // ______________________________________________
+
   if (!root) return 0
+
+  let leftDepth = 1
+  let node = root.left
+  while (node) {
+    node = node.left
+    leftDepth++
+  }
+
+  let rightDepth = 1
+  node = root.right
+  while (node) {
+    node = node.right
+    rightDepth++
+  }
+
+  if (leftDepth === rightDepth) {
+    return 2 ** leftDepth - 1
+  }
+
   return 1 + countNodes(root.left) + countNodes(root.right)
 }
 
