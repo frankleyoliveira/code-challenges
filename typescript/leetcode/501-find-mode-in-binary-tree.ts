@@ -3,7 +3,6 @@
 
 import { createTree } from "./utils"
 
-
 class TreeNode {
   val: number
   left: TreeNode | null
@@ -15,46 +14,22 @@ class TreeNode {
   }
 }
 
-
 function findMode(root: TreeNode | null): number[] {
-  if (!root) return []
-  if (!root.left && !root.right) return [root.val]
+  const counts = new Map<number, number>()
 
-  const getKeys = (root: TreeNode | null): number[] => {
-    if (!root) return []
-
-    const left = getKeys(root.left)
-    const right = getKeys(root.right)
-
-    return [...left, root.val, ...right]
+  const traverse = (node: TreeNode | null): void => {
+    if (!node) return
+    counts.set(node.val, (counts.get(node.val) ?? 0) + 1)
+    traverse(node.left)
+    traverse(node.right)
   }
 
-  const allKeys = getKeys(root).sort((a, b) => a - b)
+  traverse(root)
 
-  let modes: number[] = []
-  let current = [-1, 0] // key, count
-  let max = 1
-
-  for (let i = 0; i < allKeys.length; i++) {
-    if (current[0] === allKeys[i]) {
-      current[1] = current[1] + 1
-    } else {
-      if (current[1] === max) {
-        modes.push(current[0])
-      } else if (current[1] > max) {
-        modes = [current[0]]
-        max = current[1]
-      }
-      current = [allKeys[i], 1]
-    }
-  }
-  if (current[1] === max) {
-    modes.push(current[0])
-  } else if (current[1] > max) {
-    modes = [current[0]]
-  }
-
-  return modes
+  const max = Math.max(...counts.values())
+  return [...counts.entries()]
+    .filter(([_, count]) => count === max)
+    .map(([val]) => val)
 }
 
 const tree1 = createTree([1, null, 2, 2])
