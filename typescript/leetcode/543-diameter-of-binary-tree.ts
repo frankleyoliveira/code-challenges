@@ -15,52 +15,22 @@ class TreeNode {
 }
 
 function diameterOfBinaryTree(root: TreeNode | null): number {
-  if (!root) return 0
+  let max = 0
 
-  const sums: number[] = []
+  const leftRightDepth = (innerRoot: TreeNode | null): number => {
+    if (!innerRoot) return 0
 
-  const leftRightDepth = (innerRoot: TreeNode | null): [number, number] => {
-    // console.log('parentRoot', innerRoot)
-    if (!innerRoot) return [0, 0]
+    let left = leftRightDepth(innerRoot.left)
+    let right = leftRightDepth(innerRoot.right)
 
-    let leftL = 0
-    let leftR = 0
-    let rightL = 0
-    let rightR = 0
+    max = Math.max(max, left + right)
 
-    if (innerRoot.left) {
-      // console.log('if left');
-      [leftL, leftR] = leftRightDepth(innerRoot.left)
-      leftL++
-      leftR++
-    }
-
-    if (innerRoot.right) {
-      // console.log('if right');
-      [rightL, rightR] = leftRightDepth(innerRoot.right)
-      rightL++
-      rightR++
-    }
-
-    // console.log('innerRoot', innerRoot)
-    // console.log('leftL', leftL)
-    // console.log('leftR', leftR)
-    // console.log('rightL', rightL)
-    // console.log('rightR', rightR)
-    // console.log('---');
-
-    const maxL = Math.max(leftL, leftR)
-    const maxR = Math.max(rightL, rightR)
-
-    sums.push(maxL + maxR)
-    return [maxL, maxR]
+    return Math.max(left, right) + 1
   }
 
-  const depths = leftRightDepth(root)
-  // console.log('depths', depths)
+  leftRightDepth(root)
 
-  return Math.max(...sums)
-  // return depths[0] + depths[1]
+  return max
 }
 
 const tree1 = createTree([1, 2, 3, 4, 5])
