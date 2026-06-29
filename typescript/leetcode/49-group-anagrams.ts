@@ -2,21 +2,19 @@
 // https://leetcode.com/problems/group-anagrams/description/
 
 function groupAnagrams(strs: string[]): string[][] {
-  const result: string[][] = []
-  const groupsMap = new Map<string, number>()
+  const groups = new Map<string, string[]>()
 
   for (let i = 0; i < strs.length; i++) {
     const sorted = strs[i].split('').sort().join('')
-    const idx = groupsMap.get(sorted)
-    if (idx !== undefined) {
-      result[idx].push(strs[i])
+
+    if (groups.has(sorted)) {
+      groups.get(sorted)!.push(strs[i])
     } else {
-      groupsMap.set(sorted, result.length)
-      result.push([strs[i]])
+      groups.set(sorted, [strs[i]])
     }
   }
 
-  return result
+  return [...groups.values()]
 }
 
 console.log(groupAnagrams(["eat", "tea", "tan", "ate", "nat", "bat"])) // [["bat"],["nat","tan"],["ate","eat","tea"]]
