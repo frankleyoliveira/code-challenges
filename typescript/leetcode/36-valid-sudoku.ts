@@ -2,13 +2,9 @@
 // https://leetcode.com/problems/valid-sudoku/description/
 
 function isValidSudoku(board: string[][]): boolean {
-  const sudoku: Record<string, Set<string>> = {}
-
-  for (let i = 0; i < 9; i++) {
-    sudoku['r' + i] = new Set<string>() // row
-    sudoku['c' + i] = new Set<string>() // col
-    sudoku['b' + i] = new Set<string>() // box
-  }
+  const rows = Array.from({ length: 9 }, () => new Set<string>());
+  const cols = Array.from({ length: 9 }, () => new Set<string>());
+  const boxes = Array.from({ length: 9 }, () => new Set<string>());
 
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
@@ -18,22 +14,22 @@ function isValidSudoku(board: string[][]): boolean {
         continue
       }
 
-      if (sudoku['r' + i].has(val)) {
+      if (rows[i].has(val)) {
         return false
       }
 
-      if (sudoku['c' + j].has(val)) {
+      if (cols[j].has(val)) {
         return false
       }
 
-      const boxNum = Math.floor(i / 3) * 3 + Math.floor(j / 3)
-      if (sudoku['b' + boxNum].has(val)) {
+      const box = Math.floor(i / 3) * 3 + Math.floor(j / 3)
+      if (boxes[box].has(val)) {
         return false
       }
 
-      sudoku['r' + i].add(val)
-      sudoku['c' + j].add(val)
-      sudoku['b' + boxNum].add(val)
+      rows[i].add(val)
+      cols[j].add(val)
+      boxes[box].add(val)
     }
   }
 
