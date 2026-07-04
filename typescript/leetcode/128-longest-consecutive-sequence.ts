@@ -2,23 +2,25 @@
 // https://leetcode.com/problems/longest-consecutive-sequence/description/
 
 function longestConsecutive(nums: number[]): number {
-  if (!nums.length) return 0
+  const numsSet = new Set(nums)
 
-  let max = 1
-  let count = 1
+  let max = 0
 
-  nums.sort((a, b) => a - b)
-  for (let i = 1; i < nums.length; i++) {
-    if (nums[i] === nums[i - 1]) continue
-    if (nums[i] - 1 === nums[i - 1]) {
-      count++
-    } else {
-      max = Math.max(max, count)
-      count = 1
+  for (const num of numsSet) {
+    if (!numsSet.has(num - 1)) {
+      let count = 1
+
+      while (numsSet.has(num + count)) {
+        count++
+      }
+
+      if (count > max) {
+        max = count
+      }
     }
   }
 
-  return Math.max(max, count)
+  return max
 }
 
 console.log(longestConsecutive([100, 4, 200, 1, 3, 2])) // 4
