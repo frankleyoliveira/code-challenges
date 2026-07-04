@@ -3,17 +3,6 @@
 
 function isValidSudoku(board: string[][]): boolean {
   const sudoku: Record<string, Set<string>> = {}
-  const boxNumMap = new Map<string, number>([
-    ['11', 0],
-    ['12', 1],
-    ['13', 2],
-    ['21', 3],
-    ['22', 4],
-    ['23', 5],
-    ['31', 6],
-    ['32', 7],
-    ['33', 8],
-  ])
 
   for (let i = 0; i < 9; i++) {
     sudoku['r' + i] = new Set<string>() // row
@@ -23,42 +12,28 @@ function isValidSudoku(board: string[][]): boolean {
 
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
-      if (board[i][j] === '.') {
+      const val = board[i][j]
+
+      if (val === '.') {
         continue
       }
 
-      if (sudoku['r' + i].has(board[i][j])) {
-        return false
-      }
-      if (sudoku['c' + j].has(board[i][j])) {
+      if (sudoku['r' + i].has(val)) {
         return false
       }
 
-      // get box number
-
-      let boxRow = '1'
-      if (i > 5) {
-        boxRow = '3'
-      } else if (i > 2) {
-        boxRow = '2'
-      }
-
-      let boxCol = '1'
-      if (j > 5) {
-        boxCol = '3'
-      } else if (j > 2) {
-        boxCol = '2'
-      }
-
-      const boxNum = boxNumMap.get(boxRow + boxCol)!
-
-      if (sudoku['b' + boxNum].has(board[i][j])) {
+      if (sudoku['c' + j].has(val)) {
         return false
       }
 
-      sudoku['r' + i].add(board[i][j])
-      sudoku['c' + j].add(board[i][j])
-      sudoku['b' + boxNum].add(board[i][j])
+      const boxNum = Math.floor(i / 3) * 3 + Math.floor(j / 3)
+      if (sudoku['b' + boxNum].has(val)) {
+        return false
+      }
+
+      sudoku['r' + i].add(val)
+      sudoku['c' + j].add(val)
+      sudoku['b' + boxNum].add(val)
     }
   }
 
