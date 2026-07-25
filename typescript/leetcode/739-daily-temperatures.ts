@@ -4,7 +4,19 @@
 function dailyTemperatures(temperatures: number[]): number[] {
   const answer: number[] = []
 
-
+  for (let i = 0; i < temperatures.length; i++) {
+    let hasWarmer = false
+    for (let j = i + 1; j < temperatures.length; j++) {
+      if (temperatures[j] > temperatures[i]) {
+        hasWarmer = true
+        answer.push(j - i)
+        break
+      }
+    }
+    if (!hasWarmer) {
+      answer.push(0)
+    }
+  }
 
   return answer
 }
