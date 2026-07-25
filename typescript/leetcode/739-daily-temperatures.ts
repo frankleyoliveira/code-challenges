@@ -2,20 +2,15 @@
 // https://leetcode.com/problems/daily-temperatures/description/
 
 function dailyTemperatures(temperatures: number[]): number[] {
-  const answer: number[] = []
+  const answer: number[] = Array(temperatures.length).fill(0)
+  const stack: number[][] = [] // temp, idx
 
   for (let i = 0; i < temperatures.length; i++) {
-    let hasWarmer = false
-    for (let j = i + 1; j < temperatures.length; j++) {
-      if (temperatures[j] > temperatures[i]) {
-        hasWarmer = true
-        answer.push(j - i)
-        break
-      }
+    while (stack.length > 0 && stack[stack.length - 1][0] < temperatures[i]) {
+      const [, stackIdx] = stack.pop()!
+      answer[stackIdx] = i - stackIdx
     }
-    if (!hasWarmer) {
-      answer.push(0)
-    }
+    stack.push([temperatures[i], i])
   }
 
   return answer
