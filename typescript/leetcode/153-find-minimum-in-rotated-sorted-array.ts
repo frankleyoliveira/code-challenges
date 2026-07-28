@@ -2,27 +2,22 @@
 // https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/
 
 function findMin(nums: number[]): number {
-  let r = nums.length - 1
-
-  if (nums[0] <= nums[r]) {
-    return nums[0]
-  }
-
   let l = 0
-  let min = 0
+  let r = nums.length - 1
+  let min = Infinity
 
   while (l <= r) {
-    const mid = Math.floor((l + r) / 2)
+    if (nums[l] <= nums[r]) {
+      return Math.min(min, nums[l])
+    }
 
-    if (nums[mid] >= nums[l]) {
-      if (nums[mid + 1] < nums[l]) {
-        return nums[mid + 1]
-      }
+    const m = Math.floor((l + r) / 2)
+    min = Math.min(min, nums[m])
 
-      l = mid + 1
+    if (nums[m] >= nums[l]) {
+      l = m + 1
     } else {
-      min = nums[mid]
-      r = mid - 1
+      r = m - 1
     }
   }
 
