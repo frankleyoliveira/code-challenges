@@ -15,21 +15,25 @@ class TreeNode {
 }
 
 function kthSmallest(root: TreeNode | null, k: number): number {
-  const fillValues = (node: TreeNode | null): number[] => {
-    if (node === null) {
-      return []
+  const stack: TreeNode[] = []
+  let count = 0
+  let cur = root
+
+  while (cur || stack.length) {
+    while (cur) {
+      stack.push(cur)
+      cur = cur.left
     }
 
-    return [...fillValues(node.left), node.val, ...fillValues(node.right)]
+    cur = stack.pop()!
+    count++
+    if (count === k) {
+      return cur.val
+    }
+    cur = cur.right
   }
 
-  const values = fillValues(root!.left)
-
-  if (values.length < k) {
-    values.push(...[root!.val, ...fillValues(root!.right)])
-  }
-
-  return values[k - 1]
+  return 0
 }
 
 const root1 = createTree([3, 1, 4, null, 2])
