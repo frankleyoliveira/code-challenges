@@ -23,7 +23,13 @@ function kthSmallest(root: TreeNode | null, k: number): number {
     return [...fillValues(node.left), node.val, ...fillValues(node.right)]
   }
 
-  return fillValues(root)[k - 1]
+  const values = fillValues(root!.left)
+
+  if (values.length < k) {
+    values.push(...[root!.val, ...fillValues(root!.right)])
+  }
+
+  return values[k - 1]
 }
 
 const root1 = createTree([3, 1, 4, null, 2])
