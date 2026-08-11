@@ -1,19 +1,56 @@
 // 208. Implement Trie (Prefix Tree)
 // https://leetcode.com/problems/implement-trie-prefix-tree/description/ink
 
+class TrieNode {
+  children: Record<string, TrieNode>;
+  endOfWord: boolean;
+
+  constructor() {
+    this.children = {};
+    this.endOfWord = false;
+  }
+}
+
 class Trie {
-  private words: string[] = []
+  private root = new TrieNode()
 
   insert(word: string): void {
-    this.words.push(word)
+    let cur = this.root
+
+    for (const char of word) {
+      if (!cur.children[char]) {
+        cur.children[char] = new TrieNode()
+      }
+      cur = cur.children[char]
+    }
+
+    cur.endOfWord = true
   }
 
   search(word: string): boolean {
-    return this.words.includes(word)
+    let cur = this.root
+
+    for (const char of word) {
+      if (!cur.children[char]) {
+        return false
+      }
+      cur = cur.children[char]
+    }
+
+    return cur.endOfWord
   }
 
   startsWith(prefix: string): boolean {
-    return this.words.some(word => word.startsWith(prefix))
+    let cur = this.root
+
+    for (const char of prefix) {
+      if (!cur.children[char]) {
+        return false
+      }
+      cur = cur.children[char]
+    }
+
+    return true
   }
 }
 
