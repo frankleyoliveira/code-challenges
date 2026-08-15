@@ -2,50 +2,27 @@
 // https://leetcode.com/problems/insert-interval/description/
 
 function insert(intervals: number[][], newInterval: number[]): number[][] {
-  if (!intervals.length) return [newInterval]
-
-  const result: number[][] = []
-  let foundInterval = false
+  const res: number[][] = []
 
   for (let i = 0; i < intervals.length; i++) {
-    result.push(intervals[i])
+    if (intervals[i][0] > newInterval[1]) {
+      res.push(newInterval)
+      return [...res, ...intervals.slice(i)]
+    }
 
-    if (!foundInterval && intervals[i][1] >= newInterval[0] && intervals[i][0] <= newInterval[1]) {
-      const lastIdx = result.length - 1
-      const [curMin, curMax] = result[lastIdx]
-
-      result[lastIdx][0] = Math.min(curMin, newInterval[0])
-      result[lastIdx][1] = Math.max(curMax, newInterval[1])
-
-      foundInterval = true
-
+    if (intervals[i][1] < newInterval[0]) {
+      res.push(intervals[i])
       continue
     }
 
-    if (foundInterval && intervals[i][0] <= newInterval[1]) {
-      const lastMax = result.pop()![1]
-      const curMax = result[result.length - 1][1]
-
-      result[result.length - 1][1] = Math.max(curMax, lastMax, intervals[i][1])
-
-      continue
-    }
-
-    if (!foundInterval && i < intervals.length - 1 && intervals[i][1] < newInterval[0] && intervals[i + 1][0] > newInterval[1]) {
-      result.push(newInterval)
-      foundInterval = true
-    }
+    // overlaps
+    newInterval[0] = Math.min(newInterval[0], intervals[i][0])
+    newInterval[1] = Math.max(newInterval[1], intervals[i][1])
   }
 
-  if (!foundInterval) {
-    if (newInterval[1] < result[0][0]) {
-      result.unshift(newInterval)
-    } else {
-      result.push(newInterval)
-    }
-  }
+  res.push(newInterval)
 
-  return result
+  return res
 }
 
 console.log(insert([[1, 3], [6, 9]], [2, 5])) // [[1,5],[6,9]]
