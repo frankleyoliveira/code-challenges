@@ -15,24 +15,13 @@ class TreeNode {
 function buildTree(preorder: number[], inorder: number[]): TreeNode | null {
   if (!preorder.length) return null
 
-  const root = preorder[0]
-  const rootIdxInorder = inorder.findIndex(n => n === root)
-  let leftInorder: number[] = []
-  let rightInorder: number[] = []
-  let leftPreorder: number[] = []
-  let rightPreorder: number[] = []
+  const root = new TreeNode(preorder[0])
+  const rootIdx = inorder.findIndex(n => n === preorder[0])
 
-  if (rootIdxInorder > 0) {
-    leftInorder = inorder.slice(0, rootIdxInorder)
-    leftPreorder = preorder.slice(1, leftInorder.length + 1)
-  }
+  root.left = buildTree(preorder.slice(1, rootIdx + 1), inorder.slice(0, rootIdx))
+  root.right = buildTree(preorder.slice(rootIdx + 1), inorder.slice(rootIdx + 1))
 
-  if (rootIdxInorder < inorder.length - 1) {
-    rightInorder = inorder.slice(rootIdxInorder + 1)
-    rightPreorder = preorder.slice(leftInorder.length + 1)
-  }
-
-  return new TreeNode(root, buildTree(leftPreorder, leftInorder), buildTree(rightPreorder, rightInorder))
+  return root
 }
 
 console.log(buildTree([3, 9, 20, 15, 7], [9, 3, 15, 20, 7])) // [3,9,20,null,null,15,7]
